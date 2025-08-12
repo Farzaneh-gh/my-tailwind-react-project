@@ -10,7 +10,9 @@ function Articles() {
   const [allCorses, setAllCourses] = React.useState([]);
   const [items, setItems] = React.useState([]);
   const getAllCourses = async () => {
-const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/articles`);
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/articles`
+    );
     const data = await response.json();
     setAllCourses(data);
   };
@@ -20,7 +22,6 @@ const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/articles`);
   }, []);
   return (
     <div className="bg-gray-100 dark:bg-zinc-800 pt-32">
-
       <div className="container mx-auto px-4">
         <Breadcrumb
           links={[
@@ -34,7 +35,9 @@ const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/articles`);
             items.map((article, index) => (
               <BlogBox
                 key={index}
-                image={`http://localhost:4001/courses/covers/${article.cover}`}
+                image={`${
+                  import.meta.env.VITE_BACKEND_URL_IMG
+                }/courses/covers/${article.cover}`}
                 title={article.title}
                 description={article.description}
                 date={article.createdAt}

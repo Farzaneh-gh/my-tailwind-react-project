@@ -4,11 +4,17 @@ function ProductBox({ course=[] }) {
 
   return (
     <div className="course flex flex-col bg-white dark:bg-zinc-700 rounded-xl">
-      <Link className="block h-42" to={`/course-info/${course.shortName}`} title="آموزش جامع توسعه وردپرس">
+      <Link
+        className="block h-42"
+        to={`/course-info/${course.shortName}`}
+        title="آموزش جامع توسعه وردپرس"
+      >
         <img
           className="size-full object-cover rounded-xl"
           loading="lazy"
-          src={`http://localhost:4001/courses/covers/${course?.cover}`}
+          src={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${
+            course?.cover
+          }`}
           alt="آموزش جامع توسعه وردپرس"
         />
       </Link>
@@ -51,14 +57,15 @@ function ProductBox({ course=[] }) {
 
           <div className="flex items-center gap-x-2.5">
             <div className="text-sm font-DanaMedium p-1 rounded bg-green-500 text-white">
-              {course.discount} <span className="font-DanaMedium text-base">%</span>
+              {course.discount}{" "}
+              <span className="font-DanaMedium text-base">%</span>
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-slate-500 dark:text-white/70 -mb-1.5 line-through">
                 {course.price}{" "}
               </span>
               <span className="text-green-500 font-DanaDemiBold text-lg">
-                {course.price*(100-course.discount)/100}{" "}
+                {(course.price * (100 - course.discount)) / 100}{" "}
                 <span className="font-DanaMedium text-base">تومانءء</span>{" "}
               </span>
             </div>

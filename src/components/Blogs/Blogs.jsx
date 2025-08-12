@@ -26,7 +26,9 @@ function Blogs() {
         {allArticles.map((article, index) => (
           <BlogBox
             key={index}
-            image={`http://localhost:4001/courses/covers/${article.cover}`}
+            image={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${
+              article.cover
+            }`}
             title={article.title}
             description={article.description}
             date={article.createdAt}

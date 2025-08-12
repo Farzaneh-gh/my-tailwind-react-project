@@ -152,7 +152,7 @@ const CourseInfo = () => {
       <div className="container mx-auto px-4">
         <Breadcrumb
           links={[
-            { id: 1, title: "خانه", to: "" },
+            { id: 1, title: "خانه", to: "/" },
             {
               id: 2,
               title: "آموزش برنامه نویسی فرانت‌اند",

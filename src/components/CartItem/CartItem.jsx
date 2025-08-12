@@ -12,7 +12,9 @@ function CartItem({
     <div className="flex pt-5 pb-6 gap-x-2.5 border-b border-gray-300 dark:border-white/50 font-DanaMedium">
       <div className="shrink-0">
         <img
-          src={`http://localhost:4001/courses/covers/${course?.cover}`}
+          src={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${
+            course?.cover
+          }`}
           alt="product"
           className={imageSize}
         />
@@ -33,7 +35,10 @@ function CartItem({
               {course.price} <span className="text-sm">تومان</span>
             </span>
           </div>
-          <button className="flex items-center cursor-pointer hover:text-red-500" onClick={() => deleteItem(course._id)}>
+          <button
+            className="flex items-center cursor-pointer hover:text-red-500"
+            onClick={() => deleteItem(course._id)}
+          >
             <svg className="w-5 h-5 text-gray-400 hover:text-red-500">
               <use href="#icon-trash" />
             </svg>

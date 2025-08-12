@@ -28,7 +28,6 @@ function ArticleInfo() {
 
   return (
     <div className="bg-gray-100 dark:bg-zinc-800 pt-32">
- 
       <div className="container mx-auto px-4">
         <Breadcrumb
           links={[
@@ -86,7 +85,9 @@ function ArticleInfo() {
               </div>
 
               <img
-                src={`http://localhost:4001/courses/covers/${article?.cover}`}
+                src={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${
+                  article?.cover
+                }`}
                 alt="Article Cover"
                 className="w-full h-auto mt-5 rounded-2xl object-cover"
               />
