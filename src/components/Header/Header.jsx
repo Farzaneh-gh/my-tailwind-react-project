@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Typewriter from "typewriter-effect";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import LandingCounter from "./LandingCounter";
+import { Link } from "react-router-dom";
+
 function Header() {
   const [searchValue, setSearchValue] = useState("");
+  const [openSearchResult, setOpenSearchResult] = useState(false);
+  const [courses, setCourses] = useState([]);
   const [infoIndex, setInfoIndex] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const getInfoIndex = () => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/infos/index`)
       .then((res) => res.json())
@@ -17,12 +20,27 @@ function Header() {
   useEffect(() => {
     getInfoIndex();
   }, []);
-  const navigate = useNavigate();
 
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    navigate(`/search/${searchValue}`);
+  const handleSearchChange = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/search/${
+          searchValue
+        }`
+      );
+      const data = await response.json();
+      setCourses([...data.allResultCourses, ...data.allResultArticles]);
+      setOpenSearchResult(true);
+      setLoading(false);
+ 
+    } catch (e) {
+      console.log(e);
+    }
   };
+  useEffect(() => {
+ console.log(courses)
+  }, [courses]);
   return (
     <section className="relative h-auto md:min-h-auto  mt-16 md:mt-0 bg-home-desktop no-repeat bg-cover bg-[center_top]">
       <div className="container h-full md:min-h-screen flex flex-col justify-center items-center pt-8 xs:pt-10  ">
@@ -56,8 +74,8 @@ function Header() {
               id="searchbox-input"
               type="text"
               value={searchValue}
-              onChange={() => setSearchValue(event.target.value)}
-              className="flex-grow pr-2.5 bg-transparent text-gray-900 font-danaMedium text-sm md:text-base"
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="flex-grow pr-2.5 bg-transparent text-gray-900 font-danaMedium text-sm md:text-base border-none focus:outline-none"
               placeholder="جستجو در بین دوره ها ..."
             />
             <button
@@ -72,28 +90,48 @@ function Header() {
           </div>
           <div
             id="search-result-container"
-            className="hidden absolute right-0 left-0 bg-white p-5 border border-neutral-200 text-gray-900 rounded-xl z-20 transition-all"
+            className={`${
+              openSearchResult ? "block" : "hidden"
+            } absolute right-0 left-0 bg-white p-5 border border-neutral-200 text-gray-900 rounded-xl z-20 transition-all text-center`}
           >
-            <div
-              id="search-loading"
-              className="btn btn-primary btn-outline only-icon mx-auto"
-            >
-              <svg className="size-6 animate-spin animate-reverse">
-                <use href="#refresh"></use>
-              </svg>
-            </div>
+            {loading && (
+              <div
+                id="search-loading"
+                className="btn btn-success btn-outline  mx-auto"
+              >
+                <svg className="size-6 animate-spin animate-reverse">
+                  <use href="#icon-refresh"></use>
+                </svg>
+              </div>
+            )}
 
             <div
               id="search-result-course-container"
-              className="hidden space-y-5 text-right"
-            ></div>
-
-            <p className="hidden" id="search-nothing-found">
-              متاسفانه نتیجه ای با مشخصات مورد نظر شما پیدا نشد!
-            </p>
-            <p className="hidden" id="search-invalid-text">
-              برای نمایش نتایج، حداقل 3 حرف وارد کنید
-            </p>
+              className={`block space-y-5 text-right`}
+            >
+              {courses.length > 0 ? (
+                courses?.map((course) => (
+                  <Link
+                    to={`${course.name ? `/course-info/${course.shortName}` : `/article-info/${course.shortName}`}` }
+                    className=" text-sm md:text-base flex items-center justify-between"
+                  >
+                    {course?.name || course?.title}
+                    <svg className="inline-block size-5">
+                      <use href="#icon-chevron"></use>
+                    </svg>
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <p className="block" id="search-nothing-found">
+                    متاسفانه نتیجه ای با مشخصات مورد نظر شما پیدا نشد!
+                  </p>
+                  <p className="block" id="search-invalid-text">
+                    برای نمایش نتایج، حداقل 3 حرف وارد کنید
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
