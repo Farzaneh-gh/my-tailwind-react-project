@@ -103,7 +103,7 @@ swal({
                   }`}
                 >
                   {menu.submenus.map((submenu, subIndex) => (
-                    <Link key={subIndex} to={submenu.href}>
+                    <Link key={subIndex} to={submenu.href} onClick={closeSidebar}>
                       {submenu.title}
                     </Link>
                   ))}
@@ -140,7 +140,7 @@ swal({
                   </svg>
                   <span>پروفایل</span>
                 </Link>
-                <button onClick={handleLogout}  className="flex items-center gap-x-2">
+                <button onClick={()=>{handleLogout();closeSidebar()}}  className="flex items-center gap-x-2">
                   <svg className="w-5 h-5">
                     <use href="#icon-logout" />
                   </svg>
@@ -149,7 +149,7 @@ swal({
               </div>
             </>
           ) : (
-            <Link to="/login" className="flex items-center gap-x-2">
+            <Link to="/login" className="flex items-center gap-x-2" >
               <svg className="w-5 h-5">
                 <use href="#icon-user" />
               </svg>
@@ -167,7 +167,10 @@ swal({
           </button>
 
           <button
-            onClick={openMobileCartSidebarHandler}
+            onClick={()=>{
+              openMobileCartSidebarHandler();
+              closeSidebar();
+            }}
             className="inline-flex items-center gap-x-2"
           >
             <svg className="w-5 h-5 text-orange-300">
