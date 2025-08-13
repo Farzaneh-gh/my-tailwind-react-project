@@ -18,7 +18,6 @@ const CourseInfo = () => {
   const [comments, setComments] = React.useState([]);
   const [sessions, setSessions] = React.useState([]);
 
-
   function formatPersianDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString("fa-IR");
@@ -92,7 +91,6 @@ const CourseInfo = () => {
             throw new Error("ثبت نام با خطا مواجه شد");
           }
         } catch (err) {
-       
           swal({
             title: err.message || "ثبت نام با خطا مواجه شد",
             icon: "error",
@@ -100,14 +98,14 @@ const CourseInfo = () => {
           });
         }
       } else {
-       if (!Cookies.get("user")) {
-         swal({
-           title: "برای خرید ابتدا وارد حساب کاربری خود شوید",
-           icon: "error",
-           button: "باشه",
-         });
-         return;
-       }
+        if (!Cookies.get("user")) {
+          swal({
+            title: "برای خرید ابتدا وارد حساب کاربری خود شوید",
+            icon: "error",
+            button: "باشه",
+          });
+          return;
+        }
 
         try {
           const respnse = await fetch(
@@ -137,7 +135,6 @@ const CourseInfo = () => {
             throw new Error("لطفاً مجدداً امتحان کنید");
           }
         } catch (err) {
-    
           swal({
             title: err.message || "ثبت نام با خطا مواجه شد",
             icon: "error",
@@ -223,7 +220,10 @@ const CourseInfo = () => {
                 controls
               >
                 <source
-                  src="https://tech.sabzlearn.ir/uploads/bahador_arab/english_learning/1-intro.MP4?h=pHngKz8f_S2lzDba_kj6gw&t=1753725811"
+                  src={`${
+                    import.meta.env.VITE_BACKEND_URL_IMG
+                  }/courses/covers/9d6675e7c1c15fb1b935ebff2626178d49c0d1b63d66cdc9fa0fdcf18166d608.mp4
+                  `}
                   type="video/mp4"
                 />
               </video>
